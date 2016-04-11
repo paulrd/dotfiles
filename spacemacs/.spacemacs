@@ -23,16 +23,19 @@ values."
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
-     ;; auto-completion
+     auto-completion
      ;; better-defaults
      emacs-lisp
      git
      clojure
+     finance
      ;; markdown
      org
-     ;; (shell :variables
-     ;;        shell-default-height 30
-     ;;        shell-default-position 'bottom)
+     (shell :variables
+            shell-default-shell 'multi-term
+     ;;       shell-default-height 30
+     ;;       shell-default-position 'bottom
+            )
      ;; spell-checking
      ;; syntax-checking
      ;; version-control
@@ -108,7 +111,7 @@ values."
    ;; Default font. `powerline-scale' allows to quickly tweak the mode-line
    ;; size to make separators look not too crappy.
    dotspacemacs-default-font '("Source Code Pro"
-                               :size 13
+                               :size 20
                                :weight normal
                                :width normal
                                :powerline-scale 1.1)
@@ -156,7 +159,7 @@ values."
    ;; If non nil then `ido' replaces `helm' for some commands. For now only
    ;; `find-files' (SPC f f), `find-spacemacs-file' (SPC f e s), and
    ;; `find-contrib-file' (SPC f e c) are replaced. (default nil)
-   dotspacemacs-use-ido nil
+   dotspacemacs-use-ido t
    ;; If non nil, `helm' will try to minimize the space it uses. (default nil)
    dotspacemacs-helm-resize nil
    ;; if non nil, the helm header is hidden when there is only one source.
@@ -256,10 +259,22 @@ layers configuration. You are free to put any user code."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(cider-boot-parameters "cider repl -s wait")
+ '(ledger-reports
+   (quote
+    (("balance-sheet" "ledger -f /home/paul/Documents/coop/achc.dat -e \"2015/06/21\" bal assets equity liabilities")
+     ("all-balances-current-month" "ledger -f /home/paul/Documents/coop/achc.dat -p \"from 2015/05/21 to 2015/06/21\" bal")
+     ("cash-flow" "ledger -f /home/paul/Documents/coop/achc.dat -p \"from 2015/05/21 to 2015/06/21\" -d \"l<3\" bal expenses income")
+     ("budget" "ledger -f /home/paul/Documents/coop/achc.dat -p \"from 2014/06/21 to 2015/06/21\" budget income expenses")
+     ("bal" "ledger -f %(ledger-file) bal")
+     ("reg" "ledger -f %(ledger-file) reg")
+     ("payee" "ledger -f %(ledger-file) reg @%(payee)")
+     ("account" "ledger -f %(ledger-file) reg %(account)")
+     ("cash-flow-year-to-date" "ledger -f %(ledger-file) -p \"from 2014/06/21 to 2015/06/21\" bal income expenses"))))
  '(org-agenda-files (quote ("/home/paul/personal/babushka.org"))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(company-tooltip-common ((t (:inherit company-tooltip :weight bold :underline nil))))
+ '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil)))))
