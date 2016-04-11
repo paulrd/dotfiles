@@ -29,6 +29,7 @@ values."
      git
      clojure
      finance
+     evil-cleverparens
      ;; markdown
      org
      (shell :variables
@@ -248,6 +249,7 @@ in `dotspacemacs/user-config'."
   "Configuration function for user code.
 This function is called at the very end of Spacemacs initialization after
 layers configuration. You are free to put any user code."
+  (add-hook 'clojure-mode-hook #'evil-cleverparens-mode)
   (setq-default evil-escape-key-sequence "ue")
   (setq clojure-enable-fancify-symbols t))
 
