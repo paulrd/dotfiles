@@ -263,16 +263,35 @@ layers configuration. You are free to put any user code."
  '(cider-boot-parameters "cider repl -s wait")
  '(ledger-reports
    (quote
-    (("balance-sheet" "ledger -f /home/paul/Documents/coop/achc.dat -e \"2015/06/21\" bal assets equity liabilities")
+    (("cash-flow-year-to-date" "ledger -f /home/paul/Documents/coop/achc.dat -p \"from 2014/07/01 to 2015/07/01\" bal income expenses")
+     ("balance-sheet" "ledger -f /home/paul/Documents/coop/achc.dat -e \"2015/07/01\" bal assets equity liabilities")
      ("all-balances-current-month" "ledger -f /home/paul/Documents/coop/achc.dat -p \"from 2015/05/21 to 2015/06/21\" bal")
      ("cash-flow" "ledger -f /home/paul/Documents/coop/achc.dat -p \"from 2015/05/21 to 2015/06/21\" -d \"l<3\" bal expenses income")
      ("budget" "ledger -f /home/paul/Documents/coop/achc.dat -p \"from 2014/06/21 to 2015/06/21\" budget income expenses")
      ("bal" "ledger -f %(ledger-file) bal")
      ("reg" "ledger -f %(ledger-file) reg")
      ("payee" "ledger -f %(ledger-file) reg @%(payee)")
-     ("account" "ledger -f %(ledger-file) reg %(account)")
-     ("cash-flow-year-to-date" "ledger -f %(ledger-file) -p \"from 2014/06/21 to 2015/06/21\" bal income expenses"))))
- '(org-agenda-files (quote ("/home/paul/personal/babushka.org"))))
+     ("account" "ledger -f %(ledger-file) reg %(account)"))))
+ '(org-agenda-files
+   (quote
+    ("/home/paul/personal/babushka.org" "/home/paul/org/notes.org")))
+ '(org-agenda-todo-ignore-scheduled (quote future))
+ '(org-capture-templates
+   (quote
+    (("j" "Make a Journal Entry" entry
+      (file+datetree "~/personal/babushka.org")
+      "")
+     ("t" "Todo" entry
+      (file+headline "~/org/notes.org" "Tasks")
+      "* TODO %? 
+ %i
+ %a"))))
+ '(org-columns-default-format
+   "%60ITEM(Task) %5PRIORITY(Prty) %7Effort(Est. Effort) {:} %CLOCKSUM")
+ '(org-global-properties
+   (quote
+    (("Effort_ALL" . "0 0:10 0:30 1:00 2:00 3:00 4:00 5:00 6:00 7:00"))))
+ '(org-refile-targets (quote ((org-agenda-files :maxlevel . 3)))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
