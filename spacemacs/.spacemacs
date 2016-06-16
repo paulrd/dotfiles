@@ -263,13 +263,14 @@ layers configuration. You are free to put any user code."
  '(cider-boot-parameters "cider repl -s wait")
  '(ledger-reports
    (quote
-    (("cash-flow-year-to-date" "ledger -f /home/paul/Documents/coop/achc.dat -p \"from 2014/07/01 to 2015/07/01\" bal income expenses")
-     ("balance-sheet" "ledger -f /home/paul/Documents/coop/achc.dat -e \"2015/07/01\" bal assets equity liabilities")
-     ("all-balances-current-month" "ledger -f /home/paul/Documents/coop/achc.dat -p \"from 2015/05/21 to 2015/06/21\" bal")
-     ("cash-flow" "ledger -f /home/paul/Documents/coop/achc.dat -p \"from 2015/05/21 to 2015/06/21\" -d \"l<3\" bal expenses income")
-     ("budget" "ledger -f /home/paul/Documents/coop/achc.dat -p \"from 2014/06/21 to 2015/06/21\" budget income expenses")
+    (("cleared" "ledger cleared -f /home/paul/Desktop/drewr3.dat")
+     ("reg" "ledger reg -f %(ledger-file)")
+     ("balance-sheet" "ledger -f /home/paul/Documents/coop/achc.dat -e \"2016/06/01\" bal assets equity liabilities")
+     ("all-balances-current-month" "ledger -f /home/paul/Documents/coop/achc.dat -p \"from 2016/05/01 to 2016/06/01\" bal")
+     ("cash-flow" "ledger -f /home/paul/Documents/coop/achc.dat -p \"from 2016/05/01 to 2016/06/01\" -d \"l<3\" bal expenses income")
+     ("cash-flow-year-to-date" "ledger -f /home/paul/Documents/coop/achc.dat -p \"from 2015/07/01 to 2016/06/01\" bal income expenses")
+     ("budget" "ledger -f /home/paul/Documents/coop/achc.dat -p \"from 2015/07/01 to 2016/06/01\" budget income expenses")
      ("bal" "ledger -f %(ledger-file) bal")
-     ("reg" "ledger -f %(ledger-file) reg")
      ("payee" "ledger -f %(ledger-file) reg @%(payee)")
      ("account" "ledger -f %(ledger-file) reg %(account)"))))
  '(org-agenda-files
