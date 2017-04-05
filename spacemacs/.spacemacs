@@ -18,6 +18,7 @@ values."
    ;; of a list then all discovered layers will be installed.
    dotspacemacs-configuration-layers
    '(
+     sql
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
@@ -28,6 +29,9 @@ values."
      emacs-lisp
      git
      clojure
+     graphviz
+     (c-c++ :variables c-c++-default-mode-for-headers 'c++-mode)
+     gtags
      finance
      evil-cleverparens
      ;; markdown
@@ -45,7 +49,7 @@ values."
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '()
+   dotspacemacs-additional-packages '(ejc-sql)
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages '()
    ;; If non-nil spacemacs will delete any orphan packages, i.e. packages that
@@ -251,7 +255,19 @@ This function is called at the very end of Spacemacs initialization after
 layers configuration. You are free to put any user code."
   (add-hook 'clojure-mode-hook #'evil-cleverparens-mode)
   (setq-default evil-escape-key-sequence "ue")
-  (setq clojure-enable-fancify-symbols t))
+  (setq clojure-enable-fancify-symbols t)
+  (require 'ejc-sql)
+  (ejc-create-connection
+   "H2-db-connection"
+   :classpath (file-truename
+               "~/.m2/repository/com/h2database/h2/1.4.193/h2-1.4.193.jar")
+   :classname "org.h2.Driver"
+   :subprotocol "h2"
+   :subname "~/repos/database/db/cawala_db"
+   :user "sa"
+   :password "")
+  ;;(ejc-set-rows-limit 1000)
+  )
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
@@ -260,16 +276,19 @@ layers configuration. You are free to put any user code."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(cider-boot-parameters "cider repl -s wait")
+ '(default-frame-alist
+    (quote
+     ((font . "-ADBO-Source Code Pro-normal-normal-normal-*-17-*-*-*-m-0-iso10646-1")
+      (vertical-scroll-bars))))
  '(ledger-reports
    (quote
-    (("cleared" "ledger cleared -f /home/paul/Desktop/drewr3.dat")
+    (("balance-sheet" "ledger -f /home/paul/Documents/coop/achc.dat -e \"2016/10/01\" bal assets equity liabilities")
+     ("all-balances-current-month" "ledger -f /home/paul/Documents/coop/achc.dat -p \"from 2016/09/01 to 2016/10/01\" bal")
+     ("cash-flow" "ledger -f /home/paul/Documents/coop/achc.dat -p \"from 2016/09/01 to 2016/10/01\" -d \"l<3\" bal expenses income")
+     ("budget" "ledger -f /home/paul/Documents/coop/achc.dat -p \"from 2016/07/01 to 2016/10/01\" budget income expenses")
+     ("cash-flow-year-to-date" "ledger -f /home/paul/Documents/coop/achc.dat -p \"from 2015/07/01 to 2016/07/01\" bal income expenses")
+     ("cleared" "ledger cleared -f /home/paul/Desktop/drewr3.dat")
      ("reg" "ledger reg -f %(ledger-file)")
-     ("balance-sheet" "ledger -f /home/paul/Documents/coop/achc.dat -e \"2016/06/01\" bal assets equity liabilities")
-     ("all-balances-current-month" "ledger -f /home/paul/Documents/coop/achc.dat -p \"from 2016/05/01 to 2016/06/01\" bal")
-     ("cash-flow" "ledger -f /home/paul/Documents/coop/achc.dat -p \"from 2016/05/01 to 2016/06/01\" -d \"l<3\" bal expenses income")
-     ("cash-flow-year-to-date" "ledger -f /home/paul/Documents/coop/achc.dat -p \"from 2015/07/01 to 2016/06/01\" bal income expenses")
-     ("budget" "ledger -f /home/paul/Documents/coop/achc.dat -p \"from 2015/07/01 to 2016/06/01\" budget income expenses")
      ("bal" "ledger -f %(ledger-file) bal")
      ("payee" "ledger -f %(ledger-file) reg @%(payee)")
      ("account" "ledger -f %(ledger-file) reg %(account)"))))
@@ -284,7 +303,7 @@ layers configuration. You are free to put any user code."
       "")
      ("t" "Todo" entry
       (file+headline "~/org/notes.org" "Tasks")
-      "* TODO %? 
+      "* TODO %?
  %i
  %a"))))
  '(org-columns-default-format
@@ -292,11 +311,78 @@ layers configuration. You are free to put any user code."
  '(org-global-properties
    (quote
     (("Effort_ALL" . "0 0:10 0:30 1:00 2:00 3:00 4:00 5:00 6:00 7:00"))))
- '(org-refile-targets (quote ((org-agenda-files :maxlevel . 3)))))
+ '(org-log-into-drawer t)
+ '(org-modules
+   (quote
+    (org-bbdb org-bibtex org-docview org-gnus org-habit org-info org-irc org-mhe org-rmail org-w3m)))
+ '(org-refile-targets (quote ((org-agenda-files :maxlevel . 3))))
+ '(powerline-height nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(default ((t (:family "Source Code Pro" :foundry "ADBO" :slant normal :weight normal :height 151 :width normal))))
  '(company-tooltip-common ((t (:inherit company-tooltip :weight bold :underline nil))))
  '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil)))))
+(defun dotspacemacs/emacs-custom-settings ()
+  "Emacs custom settings.
+This is an auto-generated function, do not modify its content directly, use
+Emacs customize menu instead.
+This function is called at the very end of Spacemacs initialization."
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default-frame-alist
+    (quote
+     ((font . "-ADBO-Source Code Pro-normal-normal-normal-*-17-*-*-*-m-0-iso10646-1")
+      (vertical-scroll-bars))))
+ '(graphviz-dot-dot-program "neato")
+ '(ledger-reports
+   (quote
+    (("balance-sheet" "ledger -f /home/paul/Documents/coop/achc.dat -e \"2016/12/01\" bal assets equity liabilities")
+     ("all-balances-current-month" "ledger -f /home/paul/Documents/coop/achc.dat -p \"from 2016/11/01 to 2016/12/01\" bal")
+     ("cash-flow" "ledger -f /home/paul/Documents/coop/achc.dat -p \"from 2016/11/01 to 2016/12/01\" -d \"l<3\" bal expenses income")
+     ("budget" "ledger -f /home/paul/Documents/coop/achc.dat -p \"from 2016/07/01 to 2016/12/01\" budget income expenses")
+     ("cash-flow-year-to-date" "ledger -f /home/paul/Documents/coop/achc.dat -p \"from 2016/07/01 to 2016/12/01\" bal income expenses")
+     ("cleared" "ledger cleared -f /home/paul/Desktop/drewr3.dat")
+     ("reg" "ledger reg -f %(ledger-file)")
+     ("bal" "ledger -f %(ledger-file) bal")
+     ("payee" "ledger -f %(ledger-file) reg @%(payee)")
+     ("account" "ledger -f %(ledger-file) reg %(account)"))))
+ '(org-agenda-files
+   (quote
+    ("/home/paul/personal/babushka.org" "/home/paul/org/notes.org")))
+ '(org-agenda-todo-ignore-scheduled (quote future))
+ '(org-capture-templates
+   (quote
+    (("j" "Make a Journal Entry" entry
+      (file+datetree "~/personal/babushka.org")
+      "")
+     ("t" "Todo" entry
+      (file+headline "~/org/notes.org" "Tasks")
+      "* TODO %?
+ %i
+ %a"))))
+ '(org-columns-default-format
+   "%60ITEM(Task) %5PRIORITY(Prty) %7Effort(Est. Effort) {:} %CLOCKSUM")
+ '(org-global-properties
+   (quote
+    (("Effort_ALL" . "0 0:10 0:30 1:00 2:00 3:00 4:00 5:00 6:00 7:00"))))
+ '(org-log-into-drawer t)
+ '(org-modules
+   (quote
+    (org-bbdb org-bibtex org-docview org-gnus org-habit org-info org-irc org-mhe org-rmail org-w3m)))
+ '(org-refile-targets (quote ((org-agenda-files :maxlevel . 3))))
+ '(powerline-height nil))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:family "Source Code Pro" :foundry "ADBO" :slant normal :weight normal :height 151 :width normal))))
+ '(company-tooltip-common ((t (:inherit company-tooltip :weight bold :underline nil))))
+ '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil)))))
+)
