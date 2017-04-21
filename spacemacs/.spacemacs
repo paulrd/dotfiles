@@ -18,6 +18,8 @@ values."
    ;; of a list then all discovered layers will be installed.
    dotspacemacs-configuration-layers
    '(
+     csv
+     javascript
      sql
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
@@ -377,6 +379,9 @@ This function is called at the very end of Spacemacs initialization."
    (quote
     (org-bbdb org-bibtex org-docview org-gnus org-habit org-info org-irc org-mhe org-rmail org-w3m)))
  '(org-refile-targets (quote ((org-agenda-files :maxlevel . 3))))
+ '(package-selected-packages
+   (quote
+    (symon string-inflection go-rename winum which-key use-package toc-org restart-emacs persp-mode ledger-mode json-mode hungry-delete highlight-indentation helm-projectile helm-make helm-flx git-timemachine evil-mc ejc-sql direx dumb-jump diminish company-go clj-refactor cider clojure-mode ace-window paredit smartparens f evil company helm helm-core yasnippet avy log4e projectile magit magit-popup with-editor hydra js2-mode zenburn-theme xterm-color ws-butler web-beautify volatile-highlights vi-tilde-fringe uuidgen undo-tree sql-indent spaceline solarized-theme smeargle shell-pop rainbow-delimiters queue popwin pkg-info pcre2el paradox orgit org-projectile org-present org-pomodoro org-download org-bullets open-junk-file neotree multi-term move-text monokai-theme magit-gitflow macrostep lorem-ipsum livid-mode linum-relative link-hint json-snatcher json-reformat js2-refactor js-doc info+ inflections indent-guide htmlize hl-todo highlight-parentheses highlight-numbers hide-comnt help-fns+ helm-themes helm-swoop helm-purpose helm-mode-manager helm-gtags helm-gitignore helm-descbinds helm-company helm-c-yasnippet helm-ag graphviz-dot-mode goto-chg google-translate golden-ratio go-guru go-eldoc gnuplot gitconfig-mode gitattributes-mode git-messenger git-link git-commit ggtags fuzzy flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eshell-z eshell-prompt-extras esh-help elisp-slime-nav edn disaster define-word csv-mode company-tern company-statistics company-c-headers column-enforce-mode coffee-mode cmake-mode clomacs clojure-snippets clean-aindent-mode clang-format cider-eval-sexp-fu bind-key auto-yasnippet auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-link ace-jump-helm-line ac-ispell)))
  '(powerline-height nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
