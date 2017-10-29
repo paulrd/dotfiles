@@ -343,7 +343,7 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(cider-boot-parameters "javac repl -s -H :: wait")
+ '(cider-boot-parameters "repl -s wait")
  '(default-frame-alist
     (quote
      ((font . "-ADBO-Source Code Pro-normal-normal-normal-*-17-*-*-*-m-0-iso10646-1")
