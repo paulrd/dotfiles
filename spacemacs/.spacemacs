@@ -17,7 +17,7 @@ values."
    ;; List of configuration layers to load. If it is the symbol `all' instead
    ;; of a list then all discovered layers will be installed.
    dotspacemacs-configuration-layers
-   '(
+   '(html
      csv
      javascript
      sql
@@ -250,6 +250,11 @@ values."
 It is called immediately after `dotspacemacs/init'.  You are free to put almost
 any user code here.  The exception is org related code, which should be placed
 in `dotspacemacs/user-config'."
+
+  (setq configuration-layer--elpa-archives
+    '(("melpa"."melpa.org/packages/")
+      ("org"."orgmode.org/elpa/")
+      ("gnu"."elpa.gnu.org/packages/")))
   )
 
 (defun dotspacemacs/user-config ()
@@ -343,18 +348,17 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(cider-boot-parameters "repl -s wait")
  '(default-frame-alist
     (quote
      ((font . "-ADBO-Source Code Pro-normal-normal-normal-*-17-*-*-*-m-0-iso10646-1")
       (vertical-scroll-bars))))
  '(ledger-reports
    (quote
-    (("balance-sheet" "ledger -f /home/paul/Documents/coop/achc.dat -e \"2016/12/01\" bal assets equity liabilities")
-     ("all-balances-current-month" "ledger -f /home/paul/Documents/coop/achc.dat -p \"from 2016/11/01 to 2016/12/01\" bal")
-     ("cash-flow" "ledger -f /home/paul/Documents/coop/achc.dat -p \"from 2016/11/01 to 2016/12/01\" -d \"l<3\" bal expenses income")
-     ("budget" "ledger -f /home/paul/Documents/coop/achc.dat -p \"from 2016/07/01 to 2016/12/01\" budget income expenses")
-     ("cash-flow-year-to-date" "ledger -f /home/paul/Documents/coop/achc.dat -p \"from 2016/07/01 to 2016/12/01\" bal income expenses")
+    (("balance-sheet" "ledger -f /home/paul/Documents/coop/achc.dat -e \"2016/10/01\" bal assets equity liabilities")
+     ("all-balances-current-month" "ledger -f /home/paul/Documents/coop/achc.dat -p \"from 2016/09/01 to 2016/10/01\" bal")
+     ("cash-flow" "ledger -f /home/paul/Documents/coop/achc.dat -p \"from 2016/09/01 to 2016/10/01\" -d \"l<3\" bal expenses income")
+     ("budget" "ledger -f /home/paul/Documents/coop/achc.dat -p \"from 2016/07/01 to 2016/10/01\" budget income expenses")
+     ("cash-flow-year-to-date" "ledger -f /home/paul/Documents/coop/achc.dat -p \"from 2015/07/01 to 2016/07/01\" bal income expenses")
      ("cleared" "ledger cleared -f /home/paul/Desktop/drewr3.dat")
      ("reg" "ledger reg -f %(ledger-file)")
      ("bal" "ledger -f %(ledger-file) bal")
@@ -386,7 +390,7 @@ This function is called at the very end of Spacemacs initialization."
  '(org-refile-targets (quote ((org-agenda-files :maxlevel . 3))))
  '(package-selected-packages
    (quote
-    (org-category-capture packed iedit go-mode multiple-cursors cmake-ide levenshtein powerline highlight skewer-mode yaml-mode dash sayid password-generator org-brain godoctor flycheck-ledger flycheck evil-org evil-lion editorconfig org-plus-contrib seq async alert s realgud test-simple loc-changes load-relative window-purpose imenu-list symon string-inflection go-rename winum which-key use-package toc-org restart-emacs persp-mode ledger-mode json-mode hungry-delete highlight-indentation helm-projectile helm-make helm-flx git-timemachine evil-mc ejc-sql direx dumb-jump diminish company-go clj-refactor cider clojure-mode ace-window paredit smartparens f evil company helm helm-core yasnippet avy log4e projectile magit magit-popup with-editor hydra js2-mode zenburn-theme xterm-color ws-butler web-beautify volatile-highlights vi-tilde-fringe uuidgen undo-tree sql-indent spaceline solarized-theme smeargle shell-pop rainbow-delimiters queue popwin pkg-info pcre2el paradox orgit org-projectile org-present org-pomodoro org-download org-bullets open-junk-file neotree multi-term move-text monokai-theme magit-gitflow macrostep lorem-ipsum livid-mode linum-relative link-hint json-snatcher json-reformat js2-refactor js-doc info+ inflections indent-guide htmlize hl-todo highlight-parentheses highlight-numbers hide-comnt help-fns+ helm-themes helm-swoop helm-purpose helm-mode-manager helm-gtags helm-gitignore helm-descbinds helm-company helm-c-yasnippet helm-ag graphviz-dot-mode goto-chg google-translate golden-ratio go-guru go-eldoc gnuplot gitconfig-mode gitattributes-mode git-messenger git-link git-commit ggtags fuzzy flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eshell-z eshell-prompt-extras esh-help elisp-slime-nav edn disaster define-word csv-mode company-tern company-statistics company-c-headers column-enforce-mode coffee-mode cmake-mode clomacs clojure-snippets clean-aindent-mode clang-format cider-eval-sexp-fu bind-key auto-yasnippet auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-link ace-jump-helm-line ac-ispell)))
+    (cider web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc diminish company-tern dash-functional tern coffee-mode clojure-mode paredit smartparens evil yasnippet company helm helm-core avy projectile magit magit-popup with-editor csv-mode xterm-color ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org sql-indent spaceline smeargle shell-pop restart-emacs rainbow-delimiters popwin persp-mode pcre2el paradox orgit org-projectile org-present org-pomodoro org-download org-bullets open-junk-file neotree multi-term move-text magit-gitflow macrostep lorem-ipsum linum-relative link-hint ledger-mode info+ indent-guide hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-gtags helm-gitignore helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag graphviz-dot-mode google-translate golden-ratio go-guru go-eldoc gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link ggtags fuzzy flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eshell-z eshell-prompt-extras esh-help elisp-slime-nav ejc-sql dumb-jump disaster define-word company-statistics company-go company-c-headers column-enforce-mode cmake-mode clojure-snippets clj-refactor clean-aindent-mode clang-format cider-eval-sexp-fu auto-yasnippet auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell)))
  '(powerline-height nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
